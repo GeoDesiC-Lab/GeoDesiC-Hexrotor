@@ -30,7 +30,7 @@ This directory includes the current Pydrake model for dynamical modeling and con
     - *xacro.py:* scripts for .xacro commands
 - 
 
-## PYDRAKE CONFIGURATION:
+## Pydrake Configuration
 First, you must run the following command in terminal to establish pydrake environment variable prior to running script (taken from [Drake: Installation via APT](https://drake.mit.edu/apt.html)):
 ```bash
 export PATH="/opt/drake/bin${PATH:+:${PATH}}"
