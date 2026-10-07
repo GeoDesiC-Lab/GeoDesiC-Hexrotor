@@ -22,7 +22,7 @@ def LinearSysOut(linear_system) -> None:
 
     # finding system parameters
     state_num = np.shape(A)[0] # number of rows/columns
-    q_num = np.floor(state_num) # if odd, using quaternion representation
+    q_num = int(np.floor(state_num)) # if odd, using quaternion representation
 
     # determining controllability
     C = np.array([])
