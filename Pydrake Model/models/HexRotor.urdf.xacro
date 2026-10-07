@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="pod_copter" xmlns:xacro="http://ros.org/wiki/xacro" xmlns:drake="http://mit.edu">
+<robot name="hex_rotor" xmlns:xacro="http://ros.org/wiki/xacro" xmlns:drake="http://mit.edu">
 
   <!-- File Conventions
     - mass (kg)
@@ -86,8 +86,8 @@
   </material>
   <!-- #endregion -->
 
-  <!-- #region Copter Base -->
-  <link name="copter_base">
+  <!-- #region Rotor Base -->
+  <link name="rotor_base">
     <inertial>
       <origin xyz="${zero_origin}" rpy="${zero_rpy}"/>
       <mass value="${base_mass}"/>
@@ -109,8 +109,8 @@
   </link>
   <!-- #endregion -->
 
-  <!-- #region Copter Arms -->
-  <link name="copter_arm_1">
+  <!-- #region Rotor Arms -->
+  <link name="rotor_arm_1">
     <inertial>
       <origin xyz="${arm_origin}" rpy="${zero_rpy}"/>
       <mass value="${arm_mass}"/>
@@ -131,7 +131,7 @@
     </collision>
   </link>
 
-  <link name="copter_arm_2">
+  <link name="rotor_arm_2">
     <inertial>
       <origin xyz="${arm_origin}" rpy="${zero_rpy}"/>
       <mass value="${arm_mass}"/>
@@ -152,7 +152,7 @@
     </collision>
   </link>
 
-  <link name="copter_arm_3">
+  <link name="rotor_arm_3">
     <inertial>
       <origin xyz="${arm_origin}" rpy="${zero_rpy}"/>
       <mass value="${arm_mass}"/>
@@ -174,8 +174,8 @@
   </link>
   <!-- #endregion -->
 
-  <!-- #region Copter Splits -->
-  <link name="copter_split_1">
+  <!-- #region Rotor Splits -->
+  <link name="rotor_split_1">
     <inertial>
       <origin xyz="${split_origin}" rpy="${zero_rpy}"/>
       <mass value="${split_mass}"/>
@@ -196,7 +196,7 @@
     </collision>
   </link>
 
-  <link name="copter_split_2">
+  <link name="rotor_split_2">
     <inertial>
       <origin xyz="${split_origin}" rpy="${zero_rpy}"/>
       <mass value="${split_mass}"/>
@@ -217,7 +217,7 @@
     </collision>
   </link>
 
-  <link name="copter_split_3">
+  <link name="rotor_split_3">
     <inertial>
       <origin xyz="${split_origin}" rpy="${zero_rpy}"/>
       <mass value="${split_mass}"/>
@@ -239,8 +239,8 @@
   </link>
   <!-- #endregion -->
 
-  <!-- #region Copter Props -->
-  <link name="copter_prop_1r">
+  <!-- #region Rotor Props -->
+  <link name="rotor_prop_1r">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -261,7 +261,7 @@
     </collision>
   </link>
 
-  <link name="copter_prop_1l">
+  <link name="rotor_prop_1l">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -282,7 +282,7 @@
     </collision>
   </link>
 
-  <link name="copter_prop_2r">
+  <link name="rotor_prop_2r">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -303,7 +303,7 @@
     </collision>
   </link>
 
-  <link name="copter_prop_2l">
+  <link name="rotor_prop_2l">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -324,7 +324,7 @@
     </collision>
   </link>
 
-  <link name="copter_prop_3r">
+  <link name="rotor_prop_3r">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -345,7 +345,7 @@
     </collision>
   </link>
 
-  <link name="copter_prop_3l">
+  <link name="rotor_prop_3l">
     <inertial>
       <origin xyz="${prop_origin}" rpy="${zero_rpy}"/>
       <mass value="${prop_mass}"/>
@@ -369,24 +369,24 @@
 
   <!-- #region Revolute Joints -->
   <joint name="base_to_arm_1" type="revolute">
-    <parent link="copter_base"/>
-    <child link="copter_arm_1"/>
+    <parent link="rotor_base"/>
+    <child link="rotor_arm_1"/>
     <origin xyz="0.0 ${base_radius} 0.0" rpy="${-pi/2} 0.0 0.0"/>
     <axis xyz="${arm_joint_axis}"/>
     <limit lower="${-arm_joint_limit}" upper="${arm_joint_limit}" effort="${arm_joint_effort}" velocity="1.0"/>
   </joint>
 
   <joint name="base_to_arm_2" type="revolute">
-    <parent link="copter_base"/>
-    <child link="copter_arm_2"/>
+    <parent link="rotor_base"/>
+    <child link="rotor_arm_2"/>
     <origin xyz="${base_radius*cos(pi/6)} ${-base_radius*sin(pi/6)} 0.0" rpy="${-pi/2} 0.0 ${-pi/6-pi/2}"/>
     <axis xyz="${arm_joint_axis}"/>
     <limit lower="${-arm_joint_limit}" upper="${arm_joint_limit}" effort="${arm_joint_effort}" velocity="1.0"/>
   </joint>
 
   <joint name="base_to_arm_3" type="revolute">
-    <parent link="copter_base"/>
-    <child link="copter_arm_3"/>
+    <parent link="rotor_base"/>
+    <child link="rotor_arm_3"/>
     <origin xyz="${-base_radius*cos(pi/6)} ${-base_radius*sin(pi/6)} 0.0" rpy="${-pi/2} 0.0 ${+pi/6+pi/2}"/>
     <axis xyz="${arm_joint_axis}"/>
     <limit lower="${-arm_joint_limit}" upper="${arm_joint_limit}" effort="${arm_joint_effort}" velocity="1.0"/>
@@ -395,69 +395,75 @@
 
   <!-- #region Fixed Joints -->
   <joint name="arm_to_split_1" type="fixed">
-    <parent link="copter_arm_1"/>
-    <child link="copter_split_1"/>
+    <parent link="rotor_arm_1"/>
+    <child link="rotor_split_1"/>
     <origin xyz="${split_joint_origin}" rpy="${zero_rpy}"/>
   </joint>
 
   <joint name="arm_to_split_2" type="fixed">
-    <parent link="copter_arm_2"/>
-    <child link="copter_split_2"/>
+    <parent link="rotor_arm_2"/>
+    <child link="rotor_split_2"/>
     <origin xyz="${split_joint_origin}" rpy="${zero_rpy}"/>
   </joint>
 
   <joint name="arm_to_split_3" type="fixed">
-    <parent link="copter_arm_3"/>
-    <child link="copter_split_3"/>
+    <parent link="rotor_arm_3"/>
+    <child link="rotor_split_3"/>
     <origin xyz="${split_joint_origin}" rpy="${zero_rpy}"/>
   </joint>
 
   <joint name="split_1_to_prop_r" type="fixed">
-    <parent link="copter_split_1"/>
-    <child link="copter_prop_1r"/>
+    <parent link="rotor_split_1"/>
+    <child link="rotor_prop_1r"/>
     <origin xyz="${prop_joint_origin_r}" rpy="${prop_joint_rpy}"/>
   </joint>
 
   <joint name="split_1_to_prop_l" type="fixed">
-    <parent link="copter_split_1"/>
-    <child link="copter_prop_1l"/>
+    <parent link="rotor_split_1"/>
+    <child link="rotor_prop_1l"/>
     <origin xyz="${prop_joint_origin_l}" rpy="${prop_joint_rpy}"/>
   </joint>
 
   <joint name="split_2_to_prop_r" type="fixed">
-    <parent link="copter_split_2"/>
-    <child link="copter_prop_2r"/>
+    <parent link="rotor_split_2"/>
+    <child link="rotor_prop_2r"/>
     <origin xyz="${prop_joint_origin_r}" rpy="${prop_joint_rpy}"/>
   </joint>
 
   <joint name="split_2_to_prop_l" type="fixed">
-    <parent link="copter_split_2"/>
-    <child link="copter_prop_2l"/>
+    <parent link="rotor_split_2"/>
+    <child link="rotor_prop_2l"/>
     <origin xyz="${prop_joint_origin_l}" rpy="${prop_joint_rpy}"/>
   </joint>
 
   <joint name="split_3_to_prop_r" type="fixed">
-    <parent link="copter_split_3"/>
-    <child link="copter_prop_3r"/>
+    <parent link="rotor_split_3"/>
+    <child link="rotor_prop_3r"/>
     <origin xyz="${prop_joint_origin_r}" rpy="${prop_joint_rpy}"/>
   </joint>
 
   <joint name="split_3_to_prop_l" type="fixed">
-    <parent link="copter_split_3"/>
-    <child link="copter_prop_3l"/>
+    <parent link="rotor_split_3"/>
+    <child link="rotor_prop_3l"/>
     <origin xyz="${prop_joint_origin_l}" rpy="${prop_joint_rpy}"/>
   </joint>
   <!-- #endregion -->
 
-  <!-- <drake:collision_filter_group name="self_collision_ignore">
-    <drake:member link="copter_base"/>
-    <drake:member link="copter_arm_1"/>
-    <drake:member link="copter_arm_2"/>
-    <drake:member link="copter_arm_3"/>
-    <drake:member link="copter_split_1"/>
-    <drake:member link="copter_split_2"/>
-    <drake:member link="copter_split_3"/>
+  <drake:collision_filter_group name="self_collision_ignore">
+    <drake:member link="rotor_base"/>
+    <drake:member link="rotor_arm_1"/>
+    <drake:member link="rotor_arm_2"/>
+    <drake:member link="rotor_arm_3"/>
+    <drake:member link="rotor_split_1"/>
+    <drake:member link="rotor_split_2"/>
+    <drake:member link="rotor_split_3"/>
+    <drake:member link="rotor_prop_1r"/>
+    <drake:member link="rotor_prop_1l"/>
+    <drake:member link="rotor_prop_2r"/>
+    <drake:member link="rotor_prop_2l"/>
+    <drake:member link="rotor_prop_3r"/>
+    <drake:member link="rotor_prop_3l"/>
     <drake:ignored_collision_filter_group name="self_collision_ignore"/>
-  </drake:collision_filter_group> -->
+  </drake:collision_filter_group>
 
 </robot>
